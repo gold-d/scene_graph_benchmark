@@ -1,3 +1,6 @@
 1.['ninjv','-v']相关问题
 这个问题就是pytorch与runtime cuda的版本匹配问题，在这个代码中，需要安装runtime cuda-11.1 和pytorch1.7就可以很好的解决问题
 相关思考：最好不要想着如何降低pytorch版本，因为降低低版本也许会有更多的问题。
+
+2.torchvision版本与pytorch不匹配问题
+一定要用pip install ,不要用conda install
