@@ -28,7 +28,10 @@ conda install ipython h5py nltk joblib jupyter pandas scipy
 # maskrcnn_benchmark and coco api dependencies
 pip install ninja yacs>=0.1.8 cython matplotlib tqdm opencv-python numpy>=1.19.5
 
-conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.1 -c pytorch
+#conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.1 -c pytorch
+#conda install会出现torchvision的版本变成0.8.0a0的情况，所以最好用pip install
+pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+
 conda install -c conda-forge timm einops
 
 # install pycocotools
