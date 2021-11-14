@@ -56,6 +56,7 @@ You will also need to download the dataset. Datasets can be downloaded by [azcop
 path/to/azcopy copy 'https://penzhanwu2.blob.core.windows.net/sgg/sgg_benchmark/datasets/TASK_NAME' <target folder> --recursive
 ```
 `TASK_NAME` could be `visualgenome`, `openimages_v5c`.
+<target folder> 就是datasets文件夹
 
 We recommend to symlink the path to the dataset to `datasets/` as follows
 
