@@ -46,7 +46,8 @@ torch.backends.cudnn.deterministic = True
 
 
 def train(cfg, local_rank, distributed):
-    if cfg.MODEL.META_ARCHITECTURE == "SceneParser":
+    #建立模型
+    if cfg.MODEL.META_ARCHITECTURE == "SceneParser":      
         model = SceneParser(cfg)
     elif cfg.MODEL.META_ARCHITECTURE == "AttrRCNN":
         model = AttrRCNN(cfg)
@@ -197,7 +198,8 @@ def main():
     output_dir = cfg.OUTPUT_DIR    #在vggvrd 的redln的yaml文件中是 ./models/relation_danfeiX_FPN50/
     if output_dir:
         mkdir(output_dir)
-
+    
+    #日志文件的初始化
     logger = setup_logger("maskrcnn_benchmark", output_dir, get_rank())
     logger.info("Using {} GPUs".format(num_gpus))
     logger.info(args)
@@ -211,10 +213,10 @@ def main():
         logger.info(config_str)
     logger.info("Running with config:\n{}".format(cfg))
 
-    output_config_path = os.path.join(cfg.OUTPUT_DIR, 'config.yml')
+    output_config_path = os.path.join(cfg.OUTPUT_DIR, 'config.yml')   #输出的config文件在输出文件夹中
     logger.info("Saving config into: {}".format(output_config_path))
     # save overloaded model config in the output directory
-    save_config(cfg, output_config_path)
+    save_config(cfg, output_config_path)                              #将所有的配置（原始mask_rcnn配置 + scene_graph初始配置 + 训练模型的配置 +）添加到输出的config文件中
 
     model = train(cfg, args.local_rank, args.distributed)
 
