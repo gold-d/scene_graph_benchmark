@@ -194,7 +194,7 @@ def main():
     cfg.merge_from_list(args.opts)              #将命令行输入的配置写入
     cfg.freeze()
 
-    output_dir = cfg.OUTPUT_DIR
+    output_dir = cfg.OUTPUT_DIR    #在vggvrd 的redln的yaml文件中是 ./models/relation_danfeiX_FPN50/
     if output_dir:
         mkdir(output_dir)
 
