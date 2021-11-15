@@ -154,13 +154,13 @@ def run_test(cfg, model, distributed):
 def main():
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Training")
     parser.add_argument(
-        "--config-file",
+        "--config-file",                                    #配置文件
         default="",
         metavar="FILE",
         help="path to config file",
         type=str,
     )
-    parser.add_argument("--local_rank", type=int, default=0)
+    parser.add_argument("--local_rank", type=int, default=0)    #进程序号，就是用哪张卡
     parser.add_argument(
         "--skip-test",
         dest="skip_test",
@@ -168,7 +168,7 @@ def main():
         action="store_true",
     )
     parser.add_argument(
-        "opts",
+        "opts",                                                #使用命令行修改配置
         help="Modify config options using the command-line",
         default=None,
         nargs=argparse.REMAINDER,
@@ -176,7 +176,7 @@ def main():
 
     args = parser.parse_args()
 
-    num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
+    num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1   #gpu数量
     args.distributed = num_gpus > 1
 
     if args.distributed:
@@ -185,12 +185,13 @@ def main():
             backend="nccl", init_method="env://"
         )
         synchronize()
-
+    
+    #四个部分的配置融合 mask_rcnn原始配置 + scene_graph训练原始配置 + 训练不同模型的yaml配置 + 命令行修改的配置
     cfg.set_new_allowed(True)
-    cfg.merge_from_other_cfg(sg_cfg)
+    cfg.merge_from_other_cfg(sg_cfg)            #将scene_graph中的默认配置 加入到 原始mask_rcnn的默认配置中
     cfg.set_new_allowed(False)
-    cfg.merge_from_file(args.config_file)
-    cfg.merge_from_list(args.opts)
+    cfg.merge_from_file(args.config_file)       #将yaml文件加入到配置中
+    cfg.merge_from_list(args.opts)              #将命令行输入的配置写入
     cfg.freeze()
 
     output_dir = cfg.OUTPUT_DIR
