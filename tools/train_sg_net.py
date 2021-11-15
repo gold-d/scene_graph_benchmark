@@ -54,19 +54,20 @@ def train(cfg, local_rank, distributed):
     device = torch.device(cfg.MODEL.DEVICE)
     model.to(device)
 
-    if cfg.MODEL.BACKBONE.CONV_BODY.startswith("ViL"):
+    if cfg.MODEL.BACKBONE.CONV_BODY.startswith("ViL"):    #CONV_BODY是主干网络的使用 oivrd：XNet-152-FPN   vgvrd: XNet-50-FPN   vgattr:前三 Vil 后一：XNet-152-C4  vrd:
         optimizer = make_optimizer_d2(cfg, model)
     else:
         optimizer = make_optimizer(cfg, model)
-    scheduler = make_lr_scheduler(cfg, optimizer)
+    scheduler = make_lr_scheduler(cfg, optimizer)         #其作用在于对optimizer中的学习率进行更新、调整，更新的方法是scheduler.step()。
 
     if distributed:
-        model = torch.nn.parallel.DistributedDataParallel(
+        model = torch.nn.parallel.DistributedDataParallel(    #进行分布式部署
             model, device_ids=[local_rank], output_device=local_rank,
             # this should be removed if we update BatchNorm stats
             broadcast_buffers=False, find_unused_parameters=True
         )
-
+        
+    # 创建一个参数字典，并将迭代次数置为0
     arguments = {}
     arguments["iteration"] = 0
 
