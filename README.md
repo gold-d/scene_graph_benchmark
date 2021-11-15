@@ -77,6 +77,7 @@ Follow tsv dataset creation instructions [tools/mini_tsv/README.md](tools/mini_t
 ```bash
 python tools/train_sg_net.py --config-file "/path/to/config/file.yaml"
 ```
+ 注意/path/to/config一定是sgg_configs中的配置文件，不是configs中的
 This should work out of the box and is very similar to what we should do for multi-GPU training.
 But the drawback is that it will use much more GPU memory. The reason is that we set in the configuration files a global batch size that is divided over the number of GPUs. So if we only have a single GPU, this means that the batch size for that GPU will be 4x larger, which might lead to out-of-memory errors.
 
