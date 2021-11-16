@@ -4,6 +4,10 @@
 
 ![alt text](demo/R152FPN_demo.png "from https://storage.googleapis.com/openimages/web/index.html")
 
+#The five methods in this project don't use GCN network, use the architecture like below 
+
+![alt text](demo/R152FPN_demo.png "from https://storage.googleapis.com/openimages/web/index.html")
+
 
 ## Highlights
 - **Upgrad to pytorch 1.7**
