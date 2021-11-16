@@ -4,7 +4,7 @@
 
 ![alt text](demo/R152FPN_demo.png "from https://storage.googleapis.com/openimages/web/index.html")
 
-#The five methods in this project don't use GCN network, use the architecture like below 
+## The five methods in this project don't use GCN network, use the architecture like below 
 
 ![alt text](reldn_architecture.jpg)
 
