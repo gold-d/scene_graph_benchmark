@@ -36,7 +36,7 @@ class SceneParserOutputs(object):
 SCENE_PAESER_DICT = ["sg_baseline", "sg_imp", "sg_msdn", "sg_grcnn", "sg_reldn", "sg_neuralmotif"]
 
 
-class SceneParser(GeneralizedRCNN):
+class SceneParser(GeneralizedRCNN):   #GeneralizedRCNN为实际构造整个模型的类，其功能是使得整个网络能够组合在一起，并且调的通
     """
     Main class for Generalized Relation R-CNN.
     It consists of three main parts:
@@ -60,14 +60,14 @@ class SceneParser(GeneralizedRCNN):
             feature_dim = self.rel_backbone.out_channels
 
         # TODO: add force_relations logic
-        self.force_relations = cfg.MODEL.ROI_RELATION_#    ##HEAD.FORCE_RELATIONS
-        if cfg.MODEL.RELATION_ON and self.cfg.MODEL.ROI_RELATION_HEAD.ALGORITHM in SCENE_PAESER_DICT:
+        self.force_relations = cfg.MODEL.ROI_RELATION_HEAD.FORCE_RELATIONS       #基本都是false，也不太理解是干什么用的
+        if cfg.MODEL.RELATION_ON and self.cfg.MODEL.ROI_RELATION_HEAD.ALGORITHM in SCENE_PAESER_DICT:   
             self.relation_head = build_roi_relation_head(cfg, feature_dim)
         
-        if cfg.MODEL.ATTRIBUTE_ON:
+        if cfg.MODEL.ATTRIBUTE_ON:                                               #oi_vrd 和 vg_vrd 都是不利用属性信息的  vgattr打开了属性头
             self.attribute_head = build_roi_attribute_head(cfg, feature_dim)
 
-        # self._freeze_components(self.cfg)
+        # self._freeze_components(self.cfg)                                      #将 backbone rpn roi_heads 的参数都固定，就是不重新训练目标检测模型了，就是使用现成的目标检测模型
         for p in self.backbone.parameters():
             p.requires_grad = False
         for p in self.rpn.parameters():
@@ -76,7 +76,7 @@ class SceneParser(GeneralizedRCNN):
             p.requires_grad = False
         
         if not self.cfg.MODEL.ROI_RELATION_HEAD.SHARE_BOX_FEATURE_EXTRACTOR:
-            if self.cfg.MODEL.ROI_RELATION_HEAD.SEPERATE_SO_FEATURE_EXTRACTOR:
+            if self.cfg.MODEL.ROI_RELATION_HEAD.SEPERATE_SO_FEATURE_EXTRACTOR:      #主客体的特征都使用
                 self.subj_feature_extractor = make_roi_relation_box_feature_extractor(cfg, feature_dim)
                 self.obj_feature_extractor = make_roi_relation_box_feature_extractor(cfg, feature_dim)
             else:
