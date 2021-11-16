@@ -60,7 +60,7 @@ class SceneParser(GeneralizedRCNN):
             feature_dim = self.rel_backbone.out_channels
 
         # TODO: add force_relations logic
-        self.force_relations = cfg.MODEL.ROI_RELATION_HEAD.FORCE_RELATIONS
+        self.force_relations = cfg.MODEL.ROI_RELATION_#    ##HEAD.FORCE_RELATIONS
         if cfg.MODEL.RELATION_ON and self.cfg.MODEL.ROI_RELATION_HEAD.ALGORITHM in SCENE_PAESER_DICT:
             self.relation_head = build_roi_relation_head(cfg, feature_dim)
         
