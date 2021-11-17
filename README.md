@@ -79,6 +79,9 @@ Follow tsv dataset creation instructions [tools/mini_tsv/README.md](tools/mini_t
 ### Single GPU training
 
  令人疑惑的是，他会调用预训练模型，但是我认为他应该有一个训练好的目标检测模型，但是我没有找到他训练好的目标检测模型
+ 
+ 回答：pretrained models提供的是训练好的整体模型，训练代码中将目标检测部分参数freeze()就可以保证不改变目标检测模型了
+ 
 ```bash
 python tools/train_sg_net.py --config-file "/path/to/config/file.yaml"
 ```
