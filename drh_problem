@@ -2,5 +2,14 @@
 这个问题就是pytorch与runtime cuda的版本匹配问题，在这个代码中，需要安装runtime cuda-11.1 和pytorch1.7就可以很好的解决问题
 相关思考：最好不要想着如何降低pytorch版本，因为降低低版本也许会有更多的问题。
 
+之后在再一次装环境的时候，发现上面的环境符合，但是还有有这个问题，所以上面的并不是根本问题，进行以下尝试：
+1.
+cuda_dir="maskrcnn_benchmark/csrc/cuda"
+perl -i -pe 's/AT_CHECK/TORCH_CHECK/' $cuda_dir/deform_pool_cuda.cu $cuda_dir/deform_conv_cuda.cu
+# You can then run the regular setup command
+python3 setup.py build develop
+
+
+
 2.torchvision版本与pytorch不匹配问题
 一定要用pip install ,不要用conda install
