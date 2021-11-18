@@ -13,3 +13,9 @@ python3 setup.py build develop
 
 2.torchvision版本与pytorch不匹配问题
 一定要用pip install ,不要用conda install
+
+3.单卡训练不能指定GPU
+
+4.多卡训练出现显存不够问题
+将batch_size设置成1，问题仍然存在，说明不是batch_size的问题
+
