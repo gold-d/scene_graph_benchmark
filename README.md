@@ -83,13 +83,15 @@ Follow tsv dataset creation instructions [tools/mini_tsv/README.md](tools/mini_t
  回答：pretrained models提供的是训练好的整体模型，训练代码中将目标检测部分参数freeze()就可以保证不改变目标检测模型了
  
 ```bash
-python tools/train_sg_net.py --config-file "/path/to/config/file.yaml"
+python tools/train_sg_net.py --config-file "/path/to/config/file.yaml"  --local_rank 1
 ```
  注意/path/to/config一定是sgg_configs中的配置文件，不是configs中的
  
  1.如果使用sgg_configs/vgattr/vinvl_x152c4.yaml配置文件，其使用的VG数据集中的yaml文件找不到
  
  2.如果使用sgg_configs/vrd/R152FPN_vrd_reldn.yaml配置文件，会出现载入checkpoint模型文件pretrained_model/vrd/RX152FPN_reldn_oi_best.pth错误的问题
+ 
+ 显卡选择问题：我将torch.cuda.set_device(args.local_rank)代码放在了(if 多卡的外面）所以单卡也能用了，在--local_rank后面写显卡标号即可 
  
 This should work out of the box and is very similar to what we should do for multi-GPU training.
 But the drawback is that it will use much more GPU memory. The reason is that we set in the configuration files a global batch size that is divided over the number of GPUs. So if we only have a single GPU, this means that the batch size for that GPU will be 4x larger, which might lead to out-of-memory errors.
